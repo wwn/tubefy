@@ -2,9 +2,9 @@ name: tubefy base pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "develop" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "develop" ]
 
 permissions:
   contents: read
@@ -30,9 +30,9 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
     
-    - name: Upload build artifacts
-      if: success()
-      uses: actions/upload-artifact@v4
-      with:
-        name: gradle-build-libs
-        path: build/libs/*.jar
+#    - name: Upload build artifacts
+#      if: success()
+#      uses: actions/upload-artifact@v4
+#      with:
+#        name: gradle-build-libs
+#        path: build/libs/*.jar
