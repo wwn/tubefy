@@ -20,7 +20,7 @@ public class CheckForPublishedVideoScheduler {
     void checkYoutubeJob() {
         checkForPublishedVideoUseCase.invoke("UC_MY_CHANNEL_ID")
                 .ifPresent(event -> {
-                    eventEmitter.fire(event);
+                    eventEmitter.fireAsync(event);
                 });
     }
 }
