@@ -44,7 +44,14 @@ public class UseCaseInterceptor {
             log.error("UseCase failed: {}.{} ({}ms)", className, methodName, duration, e);
             throw e;
         } finally {
-            MDC.clear();
+            MDC.remove("useCase");
+            MDC.remove("method");
+            MDC.remove("correlationId");
+            if (parameters != null) {
+                for (int i = 0; i < parameters.length; i++) {
+                    MDC.remove("param" + i);
+                }
+            }
         }
     }
 }
