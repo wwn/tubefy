@@ -20,12 +20,11 @@ public class CheckForPublishedVideoUseCase {
             return Optional.empty();
         }
 
-        boolean isInitialRun = (lastVideoId == null);
+        String previousId = lastVideoId;
         lastVideoId = currentId;
 
-        return isInitialRun
-                ? Optional.empty()
-                : Optional.of(new PublishedVideoEvent("Neu neu neu neu neu!", currentId));
+        return Optional.ofNullable(previousId)
+                .map(id -> new PublishedVideoEvent("Tolles neues Video!", currentId));
     }
 
     // TODO implement yt api gedöhns
