@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id 'io.quarkus' version '3.30.6'
+    id("io.freefair.lombok") version "9.2.0"
+}
+
+group = 'ch.nickl'
+version = '1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    implementation platform("io.quarkus.platform:quarkus-bom:3.30.6")
+
+    implementation 'io.quarkus:quarkus-scheduler'
+    implementation 'io.quarkus:quarkus-arc'
+    implementation 'io.quarkus:quarkus-rest-client-jackson'
+    implementation 'io.quarkus:quarkus-logging-json'
+
+    compileOnly 'org.projectlombok:lombok:1.18.36'
+    annotationProcessor 'org.projectlombok:lombok:1.18.36'
+
+    testImplementation 'io.quarkus:quarkus-junit5'
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-parameters'
+}
+
+test {
+    useJUnitPlatform()
+}
