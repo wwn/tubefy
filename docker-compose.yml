@@ -1,0 +1,30 @@
+# synology D923+ DSM 7.3.2-86009
+services:
+  tubefy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tubefy
+    ports:
+    - "49952:8080"
+    networks:
+    - tubefy-net
+    environment:
+    - JAVA_OPTS=-Djava.net.preferIPv4Stack=true -Dsun.net.inetaddr.ttl=3600 -Dnetworkaddress.cache.ttl=3600
+    - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
+    - YOUTUBE_CHECK_INTERVAL=${YOUTUBE_CHECK_INTERVAL}
+    - DISCORD_NOTIFICATION_MESSAGE=${DISCORD_NOTIFICATION_MESSAGE}
+    - SUBSCRIPTIONS=${SUBSCRIPTIONS}
+    - QUARKUS_PROFILE=prod
+    restart: always
+    logging:
+      options:
+        max-size: "16m"
+        max-file: "10"
+
+networks:
+  tubefy-net:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 172.21.0.0/16
