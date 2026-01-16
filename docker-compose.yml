@@ -1,4 +1,4 @@
-#Synology
+# Synology Deployment - Tubefy
 services:
   tubefy:
     build:
@@ -18,11 +18,9 @@ services:
     - YOUTUBE_CHECK_INTERVAL=${YOUTUBE_CHECK_INTERVAL}
     - DISCORD_NOTIFICATION_MESSAGE=${DISCORD_NOTIFICATION_MESSAGE}
     - DISCORD_WEBHOOK_URLS=${DISCORD_WEBHOOK_URLS}
+    - QUARKUS_PROFILE=prod
     restart: always
 
 networks:
   tubefy-net:
     driver: bridge
-    ipam:
-      config:
-      - subnet: 172.17.0.0/16
