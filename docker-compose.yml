@@ -1,5 +1,5 @@
 services:
-  youtube-app:
+  tubefy:
     build:
       context: .
       dockerfile: Dockerfile
