@@ -13,7 +13,7 @@ services:
     - 8.8.8.8
     - 1.1.1.1
     environment:
-    - JAVA_OPTS=-Djava.net.preferIPv4Stack=true
+    - JAVA_OPTS=-Djava.net.preferIPv4Stack=true -Dsun.net.inetaddr.ttl=3600 -Dnetworkaddress.cache.ttl=3600
     - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
     - YOUTUBE_CHANNEL_IDS=${YOUTUBE_CHANNEL_ID}
     - YOUTUBE_CHECK_INTERVAL=${YOUTUBE_CHECK_INTERVAL}
