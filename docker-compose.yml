@@ -6,6 +6,8 @@ services:
     container_name: tubefy
     ports:
       - "49952:8080"
+    networks:
+    - bridge
     environment:
     - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
     - YOUTUBE_CHANNEL_IDS=${YOUTUBE_CHANNEL_ID}

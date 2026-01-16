@@ -81,6 +81,9 @@ It's already in a good state and can be used for personal use. But lemme do some
 
 ---
 
+## Demo
+https://discord.gg/mYPn5B3Z
+
 ## Todo's
 - rate limiter-
 - mapping channels -> Discord webhooks (not all -> all)
