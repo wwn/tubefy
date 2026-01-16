@@ -1,3 +1,4 @@
+#Synology
 services:
   tubefy:
     build:
@@ -5,9 +6,12 @@ services:
       dockerfile: Dockerfile
     container_name: tubefy
     ports:
-      - "49952:8080"
+    - "49952:8080"
     networks:
-    - bridge
+    - tubefy-net
+    dns:
+    - 8.8.8.8
+    - 1.1.1.1
     environment:
     - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
     - YOUTUBE_CHANNEL_IDS=${YOUTUBE_CHANNEL_ID}
@@ -15,3 +19,7 @@ services:
     - DISCORD_NOTIFICATION_MESSAGE=${DISCORD_NOTIFICATION_MESSAGE}
     - DISCORD_WEBHOOK_URLS=${DISCORD_WEBHOOK_URLS}
     restart: always
+
+networks:
+  tubefy-net:
+    driver: bridge
