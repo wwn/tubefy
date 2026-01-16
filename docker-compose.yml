@@ -19,7 +19,6 @@ services:
     - QUARKUS_PROFILE=prod
     restart: always
     logging:
-      driver: "json-file"
       options:
         max-size: "16m"
         max-file: "10"
