@@ -1,6 +1,7 @@
 # tubefy - YouTube to Discord Notifier
 
 tubefy is a lightweight Quarkus-based service that monitors YouTube channels for new uploads and automatically announces them to Discord via webhooks.
+The idea was doing a favor for my son. (Forgive me: I couldn't prevent him from YT)
 
 ## Features
 
@@ -85,7 +86,7 @@ It's already in a good state and can be used for personal use. But lemme do some
 https://discord.gg/mYPn5B3Z
 
 ## Todo's
-- rate limiter-
+- rate limiter
 - mapping channels -> Discord webhooks (not all -> all)
 - MDC, metrics (OTEL) & monitoring
 - persist last video ID and a fucking gui
