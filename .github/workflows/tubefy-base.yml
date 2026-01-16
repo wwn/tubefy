@@ -29,6 +29,18 @@ jobs:
     
     - name: Build with Gradle
       run: ./gradlew build
+
+    - name: Build Docker Image (verification only)
+      run: docker build -t tubefy:latest .
+
+    - name: Verify Docker Compose configuration
+      run: |
+        export YOUTUBE_API_KEY=test
+        export YOUTUBE_CHANNEL_ID=test
+        export YOUTUBE_CHECK_INTERVAL=10m
+        export DISCORD_NOTIFICATION_MESSAGE=test
+        export DISCORD_WEBHOOK_URLS=test
+        docker compose config
     
 #    - name: Upload build artifacts
 #      if: success()

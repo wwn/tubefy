@@ -37,11 +37,11 @@ public class UseCaseInterceptor {
         try {
             Object result = context.proceed();
             long duration = System.currentTimeMillis() - startTime;
-            log.info("UseCase completed: {}.{} ({}ms)", className, methodName, duration);
+            log.info("UseCase finished: {}.{} ({}ms)", className, methodName, duration);
             return result;
         } catch (Exception e) {
             long duration = System.currentTimeMillis() - startTime;
-            log.error("UseCase failed: {}.{} ({}ms)", className, methodName, duration, e);
+            log.error("UseCase failed: {}.{} ({}ms): {}", className, methodName, duration, e.getMessage());
             throw e;
         } finally {
             MDC.remove("useCase");

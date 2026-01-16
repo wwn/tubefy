@@ -4,7 +4,6 @@ package ch.nickl.tubefy.infrastructure.messaging;
 import ch.nickl.tubefy.application.usecase.AnnouncePublishedVideoUseCase;
 import ch.nickl.tubefy.domain.event.PublishedVideoEvent;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.event.ObservesAsync;
 import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +15,6 @@ public class PublishedVideoListener {
     AnnouncePublishedVideoUseCase announcePublishedVideoUseCase;
 
     void onNewVideo(@ObservesAsync PublishedVideoEvent event) {
-        announcePublishedVideoUseCase.invoke();
+        announcePublishedVideoUseCase.invoke(event);
     }
 }
