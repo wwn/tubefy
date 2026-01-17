@@ -1,5 +1,6 @@
 package ch.nickl.tubefy.infrastructure.scheduler;
 
+import ch.nickl.tubefy.application.usecase.AnnouncePublishedVideoUseCase;
 import ch.nickl.tubefy.application.usecase.CheckForPublishedVideoUseCase;
 import ch.nickl.tubefy.domain.event.PublishedVideoEvent;
 import io.quarkus.scheduler.Scheduled;
@@ -17,12 +18,12 @@ public class CheckForPublishedVideoScheduler {
 	@Inject
 	Event<PublishedVideoEvent> eventEmitter;
 
-	@ConfigProperty(name = "youtube.channel.ids")
-	java.util.List<String> channelIds;
+	@Inject
+	AnnouncePublishedVideoUseCase announcePublishedVideoUseCase;
 
 	@Scheduled(every = "{youtube.check.interval}", identity = "youtube-check-job")
 	void checkYoutubeJob() {
-		channelIds.forEach(channelId ->
+		announcePublishedVideoUseCase.getAllTargetChannelIds().forEach(channelId ->
 				checkForPublishedVideoUseCase.invoke(channelId)
 						.ifPresent(eventEmitter::fireAsync)
 		);

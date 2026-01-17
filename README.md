@@ -1,7 +1,9 @@
 # tubefy - YouTube to Discord Notifier
 
-tubefy is a lightweight Quarkus-based service that monitors YouTube channels for new uploads and automatically announces them to Discord via webhooks.
+tubefy is a lightweight Discord Bot that monitors YouTube channels for new uploads and automatically announces them to Discord via webhooks.
 The idea was doing a favor for my son. (Forgive me: I couldn't prevent him from YT)
+
+![tubefy](./README.png)
 
 ## Features
 
@@ -17,10 +19,11 @@ The idea was doing a favor for my son. (Forgive me: I couldn't prevent him from 
 
 ## Prerequisites
 
-- [Java 25](https://adoptium.net/) (if building locally)
-- [Docker](https://www.docker.com/) & [Docker Compose](https://docs.docker.com/compose/)
+- Java 25 (if building locally)
+- Docker
 - A YouTube Data API v3 Key
 - Discord Webhook URL(s)
+- fancy YT channels
 
 ---
 
@@ -32,8 +35,9 @@ The application is configured using environment variables. Create a `.env` file 
 # Your YouTube Data API Key
 YOUTUBE_API_KEY=BIzcSy...
 
-# Comma-separated list of YouTube Channel IDs
-YOUTUBE_CHANNEL_ID=UC1,UC2,...
+# Separated list of Discord Webhook Urls and they assigned YouTubeChannels
+# Format: URL1=CHANNEL_ID1,CHANNEL_ID2;URL2=CHANNEL_ID3
+SUBSCRIPTIONS=https://discord.com/api/webhooks/1=UC1,UC2;https://discord.com/api/webhooks/2=UC1,UC3,UC42
 
 # The interval for checking new videos (e.g., 10m, 1h, 30s)
 YOUTUBE_CHECK_INTERVAL=10m #(default 20m)
@@ -41,8 +45,6 @@ YOUTUBE_CHECK_INTERVAL=10m #(default 20m)
 # The message displayed in Discord notifications
 DISCORD_NOTIFICATION_MESSAGE=🚀 New Video from St. Claus is out!
 
-# Comma-separated list of Discord Webhook URLs
-DISCORD_WEBHOOK_URLS=https://discord.com/api/webhooks/1, https://discord.com/api/webhooks/2,...
 ```
 
 ---
@@ -87,7 +89,7 @@ https://discord.gg/mYPn5B3Z
 
 ## Todo's
 - rate limiter
-- mapping channels -> Discord webhooks (not all -> all)
+- mapping channels -> Discord webhooks (not all -> all) -> done
 - MDC, metrics (OTEL) & monitoring
 - persist last video ID and a fucking gui
 - Validator for videos instead of tooOld etc.
