@@ -26,10 +26,9 @@ class AnnouncePublishedVideoUseCaseTest {
 		@Override
 		public Map<String, String> getConfigOverrides() {
 			return Map.of(
-					"discord.webhook.urls", "http://webhook1,http://webhook2",
+					"discord.subscriptions", "http://webhook1=UC123;http://webhook2=UC456",
 					"quarkus.scheduler.enabled", "false",
 					"youtube.api.key", "test-api-key",
-					"youtube.channel.ids", "UC123",
 					"youtube.check.interval", "1h"
 			);
 		}
@@ -46,6 +45,7 @@ class AnnouncePublishedVideoUseCaseTest {
 		PublishedVideoEvent event = new PublishedVideoEvent(
 				"Test Title",
 				"vid123",
+				"UC123",
 				"2024-01-01T00:00:00Z",
 				"http://thumb"
 		);
@@ -59,7 +59,7 @@ class AnnouncePublishedVideoUseCaseTest {
 		useCase.invoke(event);
 
 		verify(mockClient1).postMessage(any(DiscordClient.DiscordMessage.class));
-		verify(mockClient2).postMessage(any(DiscordClient.DiscordMessage.class));
+		verify(mockClient2, never()).postMessage(any(DiscordClient.DiscordMessage.class));
 	}
 
 	@Test
@@ -67,6 +67,30 @@ class AnnouncePublishedVideoUseCaseTest {
 		PublishedVideoEvent event = new PublishedVideoEvent(
 				"Test Title",
 				"vid123",
+				"UC123",
+				"2024-01-01T00:00:00Z",
+				"http://thumb"
+		);
+
+		DiscordClient mockClient1 = mock(DiscordClient.class);
+		when(discordClientFactory.create("http://webhook1")).thenReturn(mockClient1);
+
+		doThrow(new RuntimeException("Discord Error")).when(mockClient1).postMessage(any());
+
+		useCase.invoke(event);
+
+		verify(mockClient1).postMessage(any());
+	}
+
+	@Test
+	void shouldInvokeMultipleWebhooksForSameChannel() {
+		AnnouncePublishedVideoUseCase manualUseCase = new AnnouncePublishedVideoUseCase(discordClientFactory);
+		manualUseCase.subscriptionsMapping = "http://webhook1=UC123;http://webhook2=UC123";
+
+		PublishedVideoEvent event = new PublishedVideoEvent(
+				"Shared Video",
+				"vid-shared",
+				"UC123",
 				"2024-01-01T00:00:00Z",
 				"http://thumb"
 		);
@@ -77,12 +101,10 @@ class AnnouncePublishedVideoUseCaseTest {
 		when(discordClientFactory.create("http://webhook1")).thenReturn(mockClient1);
 		when(discordClientFactory.create("http://webhook2")).thenReturn(mockClient2);
 
-		doThrow(new RuntimeException("Discord Error")).when(mockClient1).postMessage(any());
+		manualUseCase.invoke(event);
 
-		useCase.invoke(event);
-
-		verify(mockClient1).postMessage(any());
-		verify(mockClient2).postMessage(any());
+		verify(mockClient1).postMessage(any(DiscordClient.DiscordMessage.class));
+		verify(mockClient2).postMessage(any(DiscordClient.DiscordMessage.class));
 	}
 
 	@Test
@@ -90,6 +112,7 @@ class AnnouncePublishedVideoUseCaseTest {
 		PublishedVideoEvent event = new PublishedVideoEvent(
 				"The Magnificent Seven",
 				"vid123",
+				"UC123",
 				"2024-01-01T00:00:00Z",
 				"http://thumb"
 		);
@@ -107,5 +130,33 @@ class AnnouncePublishedVideoUseCaseTest {
 		assertThat(message.embeds()).hasSize(1);
 		assertThat(message.embeds().getFirst().title()).isEqualTo("The Magnificent Seven");
 		assertThat(message.embeds().getFirst().image().url()).isEqualTo("http://thumb");
+	}
+
+	@Test
+	void shouldHandleSubscriptionsWithThreeWebhooksCorrectly() {
+		AnnouncePublishedVideoUseCase manualUseCase = new AnnouncePublishedVideoUseCase(discordClientFactory);
+		manualUseCase.subscriptionsMapping = "url1=UC_A,UC_B;url2=UC_C;url3=UC_A,UC_D";
+
+		PublishedVideoEvent event = new PublishedVideoEvent(
+				"Video for A",
+				"vidA",
+				"UC_A",
+				"2024-01-01T00:00:00Z",
+				"http://thumb"
+		);
+
+		DiscordClient mock1 = mock(DiscordClient.class);
+		DiscordClient mock2 = mock(DiscordClient.class);
+		DiscordClient mock3 = mock(DiscordClient.class);
+
+		when(discordClientFactory.create("url1")).thenReturn(mock1);
+		when(discordClientFactory.create("url2")).thenReturn(mock2);
+		when(discordClientFactory.create("url3")).thenReturn(mock3);
+
+		manualUseCase.invoke(event);
+
+		verify(mock1).postMessage(any());
+		verify(mock2, never()).postMessage(any());
+		verify(mock3).postMessage(any());
 	}
 }

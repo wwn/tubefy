@@ -74,7 +74,7 @@ public class CheckForPublishedVideoUseCase {
 
 					lastVideoIds.put(channelId, currentId);
 					log.info("found new video: {} ({}) {}", title, currentId, publishedAt);
-					return Optional.of(new PublishedVideoEvent(title, currentId, publishedAt, latestVideo.thumbnailUrl()));
+					return Optional.of(new PublishedVideoEvent(title, currentId, channelId, publishedAt, latestVideo.thumbnailUrl()));
 				});
 	}
 

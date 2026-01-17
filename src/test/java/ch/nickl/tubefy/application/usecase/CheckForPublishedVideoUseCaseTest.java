@@ -30,8 +30,7 @@ class CheckForPublishedVideoUseCaseTest {
 			return Map.of(
 					"youtube.check.interval", "10m",
 					"youtube.api.key", "test-api-key",
-					"youtube.channel.ids", "UC123,UC456",
-					"discord.webhook.urls", "http://discord1,http://discord2",
+					"discord.subscriptions", "http://discord1=UC123;http://discord2=UC456",
 					"quarkus.scheduler.enabled", "false"
 			);
 		}
@@ -124,5 +123,41 @@ class CheckForPublishedVideoUseCaseTest {
 		assertThat(useCase.isTooOld(publishedAt))
 				.as("super too old")
 				.isTrue();
+	}
+
+	@Test
+	void shouldTrackLastVideoIdSeparatelyPerChannel() {
+		String channel1 = "UC111";
+		String playlist1 = "UU111";
+		String channel2 = "UC222";
+		String playlist2 = "UU222";
+
+		YouTubeApiModels.YouTubeSearchResponse resp1 = createMockResponse("vid1", "Title 1");
+		when(youtubeClient.fetchLatestVideos(anyString(), eq(playlist1), anyInt(), anyString())).thenReturn(resp1);
+		useCase.invoke(channel1);
+
+		YouTubeApiModels.YouTubeSearchResponse resp2 = createMockResponse("vid2", "Title 2");
+		when(youtubeClient.fetchLatestVideos(anyString(), eq(playlist2), anyInt(), anyString())).thenReturn(resp2);
+		useCase.invoke(channel2);
+
+		assertThat(useCase.invoke(channel1)).isEmpty();
+
+		YouTubeApiModels.YouTubeSearchResponse resp2New = createMockResponse("vid2New", "Title 2 New");
+		when(youtubeClient.fetchLatestVideos(anyString(), eq(playlist2), anyInt(), anyString())).thenReturn(resp2New);
+
+		Optional<ch.nickl.tubefy.domain.event.PublishedVideoEvent> event = useCase.invoke(channel2);
+		assertThat(event).isPresent();
+		assertThat(event.get().videoId()).isEqualTo("vid2New");
+		assertThat(event.get().channelId()).isEqualTo(channel2);
+	}
+
+	private YouTubeApiModels.YouTubeSearchResponse createMockResponse(String videoId, String title) {
+		return new YouTubeApiModels.YouTubeSearchResponse(
+				List.of(new YouTubeApiModels.YouTubeSearchResult(
+						new YouTubeApiModels.Snippet(title, Instant.now().minus(Duration.ofMinutes(1)).toString(),
+								new YouTubeApiModels.ResourceId(videoId),
+								new YouTubeApiModels.Thumbnails(new YouTubeApiModels.Thumbnail("http://thumb")))
+				))
+		);
 	}
 }
