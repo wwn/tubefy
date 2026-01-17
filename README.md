@@ -90,6 +90,7 @@ https://discord.gg/mYPn5B3Z
 ## Todo's
 - rate limiter
 - mapping channels -> Discord webhooks (not all -> all) -> done
+- native executable
 - MDC, metrics (OTEL) & monitoring
 - persist last video ID and a fucking gui
 - Validator for videos instead of tooOld etc.
