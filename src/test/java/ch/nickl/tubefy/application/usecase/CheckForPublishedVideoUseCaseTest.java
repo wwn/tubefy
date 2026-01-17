@@ -132,23 +132,19 @@ class CheckForPublishedVideoUseCaseTest {
 		String channel2 = "UC222";
 		String playlist2 = "UU222";
 
-		// Erster Aufruf für Kanal 1 (Initialisierung)
 		YouTubeApiModels.YouTubeSearchResponse resp1 = createMockResponse("vid1", "Title 1");
 		when(youtubeClient.fetchLatestVideos(anyString(), eq(playlist1), anyInt(), anyString())).thenReturn(resp1);
 		useCase.invoke(channel1);
 
-		// Erster Aufruf für Kanal 2 (Initialisierung)
 		YouTubeApiModels.YouTubeSearchResponse resp2 = createMockResponse("vid2", "Title 2");
 		when(youtubeClient.fetchLatestVideos(anyString(), eq(playlist2), anyInt(), anyString())).thenReturn(resp2);
 		useCase.invoke(channel2);
 
-		// Zweiter Aufruf für Kanal 1 mit demselben Video -> sollte leer sein
 		assertThat(useCase.invoke(channel1)).isEmpty();
 
-		// Zweiter Aufruf für Kanal 2 mit neuem Video -> sollte Event liefern
 		YouTubeApiModels.YouTubeSearchResponse resp2New = createMockResponse("vid2New", "Title 2 New");
 		when(youtubeClient.fetchLatestVideos(anyString(), eq(playlist2), anyInt(), anyString())).thenReturn(resp2New);
-		
+
 		Optional<ch.nickl.tubefy.domain.event.PublishedVideoEvent> event = useCase.invoke(channel2);
 		assertThat(event).isPresent();
 		assertThat(event.get().videoId()).isEqualTo("vid2New");

@@ -135,7 +135,6 @@ class AnnouncePublishedVideoUseCaseTest {
 	@Test
 	void shouldHandleSubscriptionsWithThreeWebhooksCorrectly() {
 		AnnouncePublishedVideoUseCase manualUseCase = new AnnouncePublishedVideoUseCase(discordClientFactory);
-		// Simulation der problematischen .env Konfiguration (jetzt in einer Zeile)
 		manualUseCase.subscriptionsMapping = "url1=UC_A,UC_B;url2=UC_C;url3=UC_A,UC_D";
 
 		PublishedVideoEvent event = new PublishedVideoEvent(
