@@ -89,10 +89,11 @@ https://discord.gg/mYPn5B3Z
 
 ## Todo's
 - rate limiter
-- mapping channels -> Discord webhooks (not all -> all) -> done
+- mapping channels -> Discord webhooks (not all -> all) &#10004;
 - native executable
 - MDC, metrics (OTEL) & monitoring
-- persist last video ID and a fucking gui
+- persist last video ID (currently the 1st announced video after application restart is skipped to avaoid duplicate announcements)
+- a fucking gui
 - Validator for videos instead of tooOld etc.
 
 ---
