@@ -22,8 +22,8 @@ The idea was doing a favor for my son. (Forgive me: I couldn't prevent him from 
 - Java 25 (if building locally)
 - Docker
 - A YouTube Data API v3 Key
-- Discord Webhook URL(s)
-- fancy YT channels
+- Discord Webhook URL(s) to send notifications to
+- fancy YT channels to monitor
 
 ---
 
