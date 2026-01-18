@@ -159,4 +159,25 @@ class AnnouncePublishedVideoUseCaseTest {
 		verify(mock2, never()).postMessage(any());
 		verify(mock3).postMessage(any());
 	}
+
+	@Test
+	void shouldInvokeIndividualNotificationMessage() {
+		AnnouncePublishedVideoUseCase manualUseCase = new AnnouncePublishedVideoUseCase(discordClientFactory);
+		manualUseCase.subscriptionsMapping = "url1=UC_A[Special Message]";
+		manualUseCase.notificationMessage = "Default Message";
+
+		PublishedVideoEvent event = new PublishedVideoEvent(
+				"Title", "vid1", "UC_A", "2024-01-01T00:00:00Z", "thumb"
+		);
+
+		DiscordClient mock1 = mock(DiscordClient.class);
+		when(discordClientFactory.create("url1")).thenReturn(mock1);
+
+		manualUseCase.invoke(event);
+
+		ArgumentCaptor<DiscordClient.DiscordMessage> captor = ArgumentCaptor.forClass(DiscordClient.DiscordMessage.class);
+		verify(mock1).postMessage(captor.capture());
+
+		assertThat(captor.getValue().content()).startsWith("Special Message");
+	}
 }

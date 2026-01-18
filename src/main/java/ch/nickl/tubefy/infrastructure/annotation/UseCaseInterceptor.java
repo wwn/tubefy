@@ -25,8 +25,13 @@ public class UseCaseInterceptor {
         Object[] parameters = context.getParameters();
         if (parameters != null && parameters.length > 0) {
             for (int i = 0; i < parameters.length; i++) {
-                if (parameters[i] != null) {
-                    MDC.put("param" + i, parameters[i].toString());
+                Object param = parameters[i];
+                if (param != null) {
+                    try {
+                        MDC.put("param" + i, param.toString());
+                    } catch (Exception e) {
+                        MDC.put("param" + i, "Error getting param string: " + e.getMessage());
+                    }
                 }
             }
         }
