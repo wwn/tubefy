@@ -37,7 +37,7 @@ YOUTUBE_API_KEY=BIzcSy...
 
 # Separated list of Discord Webhook Urls and they assigned YouTubeChannels
 # Format: URL1=CHANNEL_ID1,CHANNEL_ID2;URL2=CHANNEL_ID3
-SUBSCRIPTIONS=https://discord.com/api/webhooks/1=UC1,UC2;https://discord.com/api/webhooks/2=UC1,UC3,UC42
+SUBSCRIPTIONS=https://discord.com/api/webhooks/1=UC1,UC2[grettingMessage];https://discord.com/api/webhooks/2=UC1,UC3,UC42[greetingMessage]
 
 # The interval for checking new videos (e.g., 10m, 1h, 30s)
 YOUTUBE_CHECK_INTERVAL=10m #(default 20m)
