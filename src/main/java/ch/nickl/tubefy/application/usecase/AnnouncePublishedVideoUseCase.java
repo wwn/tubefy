@@ -67,34 +67,39 @@ public class AnnouncePublishedVideoUseCase {
         return Stream.of(subscriptionsMapping.split(";"))
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
-                .map(s -> {
-                    String[] parts = s.split("=", 2);
-                    String url = parts[0].trim();
-                    List<String> channelIds = Collections.emptyList();
-                    String message = this.notificationMessage;
-
-                    if (parts.length > 1) {
-                        String rightPart = parts[1].trim();
-                        if (rightPart.contains("[") && rightPart.endsWith("]")) {
-                            int messageStart = rightPart.lastIndexOf("[");
-                            message = rightPart.substring(messageStart + 1, rightPart.length() - 1).trim();
-                            rightPart = rightPart.substring(0, messageStart).trim();
-                        }
-                        channelIds = Stream.of(rightPart.split(","))
-                                .map(String::trim)
-                                .filter(id -> !id.isEmpty() && !id.equalsIgnoreCase("REPLACE_ME"))
-                                .toList();
-                    }
-
-                    if (url.isEmpty()) {
-                        log.warn("Empty webhook URL found in mapping: {}", s);
-                        return null;
-                    }
-
-                    return new SubscriptionMapping(url, channelIds, message);
-                })
+                .map(this::mapToSubscription)
                 .filter(java.util.Objects::nonNull)
                 .toList();
+    }
+
+    private SubscriptionMapping mapToSubscription(String entry) {
+        String[] parts = entry.split("=", 2);
+        String url = parts[0].trim();
+
+        if (url.isEmpty()) {
+            log.warn("Empty webhook URL found in mapping: {}", entry);
+            return null;
+        }
+
+        List<String> channelIds = Collections.emptyList();
+        String message = this.notificationMessage;
+
+        if (parts.length > 1) {
+            String rightPart = parts[1].trim();
+
+            if (rightPart.endsWith("]") && rightPart.contains("[")) {
+                int openBracket = rightPart.lastIndexOf("[");
+                message = rightPart.substring(openBracket + 1, rightPart.length() - 1).trim();
+                rightPart = rightPart.substring(0, openBracket).trim();
+            }
+
+            channelIds = Stream.of(rightPart.split(","))
+                    .map(String::trim)
+                    .filter(id -> !id.isEmpty() && !id.equalsIgnoreCase("REPLACE_ME"))
+                    .toList();
+        }
+
+        return new SubscriptionMapping(url, channelIds, message);
     }
 
     private DiscordClient.DiscordMessage createMessage(PublishedVideoEvent event, String customMessage) {
