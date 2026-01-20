@@ -40,7 +40,7 @@ YOUTUBE_CHECK_INTERVAL=10m #(default 20m)
 
 # The configuration for all subscriptions
 # create your json array as you can see in the example below
-# validate this json vs. [subscription-config.schema.json](/src/main/java/ch/nickl/tubefy/infrastructure/config/subscription-config.schema.json)
+# validate this json vs. infrastructure/config/subscription-config.schema.json
 # add the json array to the .env file as shown below
 SUBSCRIPTION_CONFIG=[
   {
