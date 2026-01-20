@@ -1,10 +1,21 @@
 # tubefy - YouTube to Discord Notifier
 
-tubefy is a lightweight Discord Bot that monitors YouTube channels for new uploads and automatically announces them to Discord via webhooks.
+[![Version](https://img.shields.io/badge/version-0.0.1-blue)](https://github.com/wwn/tubefy/releases)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/wwn/tubefy/tubefy-base.yml?branch=develop&label=build%3Amain)](https://github.com/wwn/tubefy/actions)
+[![Java](https://img.shields.io/badge/language-Java-orange?logo=openjdk)](https://www.oracle.com/java/)
+[![Quarkus](https://img.shields.io/badge/framework-Quarkus-red?logo=quarkus)](https://quarkus.io/)
+[![Docker](https://img.shields.io/badge/deployment-Docker-blue?logo=docker)](https://www.docker.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Author](https://img.shields.io/badge/author-wwn-lightgrey)](https://github.com/wwn)
+
+An independent Discord Bot based on Java and Quarkus. **tubefy** is a lightweight Discord Bot that monitors YouTube channels for new uploads and automatically announces them to Discord via webhooks.
 The idea was doing a favor for my son. (Forgive me: I couldn't prevent him from YT)
 
-![tubefy](./README.png)
-
+***
+![tubefy](./README.png "how tubfey works")
+***
+![tubefy](./README2.png "sample")
+***
 ## Features
 
 - **Multi-Channel Support:** Monitor multiple YouTube channels simultaneously.
@@ -13,7 +24,7 @@ The idea was doing a favor for my son. (Forgive me: I couldn't prevent him from 
 - **Resilience:** Built-in retry mechanism for API calls and network stability.
 - **Duplicate Protection:** Ensures each video is announced only once and ignores videos older than 3x the check interval.
 - **Docker Ready:** Easy deployment using Docker and Docker Compose.
-- **Searching via YouTubePlayList-:** much cheaper than searching vis standard YouTube search
+- **Searching via YouTubePlayList-:** much cheaper than searching via standard YouTube search
 
 ---
 
@@ -40,7 +51,7 @@ YOUTUBE_CHECK_INTERVAL=10m #(default 20m)
 
 # The configuration for all subscriptions
 # create your json array as you can see in the example below
-# validate this json vs. [subscription-config.schema.json](./src/main/java/ch/nickl/tubefy/infrastructure/config/subscription-config.schema.json)
+# validate this json vs. infrastructure/config/subscription-config.schema.json
 # add the json array to the .env file as shown below
 SUBSCRIPTION_CONFIG=[
   {
@@ -74,7 +85,7 @@ SUBSCRIPTION_CONFIG=[
 # IMPORTANT for running in a Docker container:
 # put all in exactly one line! as shown below
 SUBSCRIPTION_CONFIG=[{"discord_webhook_url":"<DISCORD WEBHOOK URL>","yt_subscriptions":[{"yt_channel_id":"<YouTub Channel ID>","greetingText":"<greeting text here>"}]},{"discord_webhook_url":"<ISCORD WEBHOOK URL>","yt_subscriptions":[{"yt_channel_id":"<YouTub Channel ID>","greetingText":"<greeting text here>"},{"yt_channel_id":"<YouTub Channel ID>","greetingText":""},{"yt_channel_id":"<YouTub Channel ID>","greetingText":"<greeting text here"}]}]
-# save your .env file now an place it in the root of the project
+# save your .env file now
 
 
 
