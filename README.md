@@ -35,15 +35,48 @@ The application is configured using environment variables. Create a `.env` file 
 # Your YouTube Data API Key
 YOUTUBE_API_KEY=BIzcSy...
 
-# Separated list of Discord Webhook Urls and they assigned YouTubeChannels
-# Format: URL1=CHANNEL_ID1,CHANNEL_ID2[greetingMessage];URL2=CHANNEL_ID3[greetingMessage]
-SUBSCRIPTIONS=https://discord.com/api/webhooks/1=UC1,UC2[greetingMessage];https://discord.com/api/webhooks/2=UC1,UC3,UC42[greetingMessage]
-
 # The interval for checking new videos (e.g., 10m, 1h, 30s)
 YOUTUBE_CHECK_INTERVAL=10m #(default 20m)
 
-# The message displayed in Discord notifications
-DISCORD_NOTIFICATION_MESSAGE=🚀 New Video from St. Claus is out!
+# The configuration for all subscriptions
+# create your json array as you can see in the example below
+# validate this json vs. [subscription-config.schema.json](./src/main/java/ch/nickl/tubefy/infrastructure/config/subscription-config.schema.json)
+# add the json array to the .env file as shown below
+SUBSCRIPTION_CONFIG=[
+  {
+    "discord_webhook_url": "<DISCORD WEBHOOK URL>",
+    "yt_subscriptions": [
+      {
+        "yt_channel_id": "<YouTub Channel ID>",
+        "greetingText": "<greeting text here>"
+      }
+    ]
+  },
+  {
+    "discord_webhook_url": "<DISCORD WEBHOOK URL>",
+    "yt_subscriptions": [
+      {
+        "yt_channel_id": "<YouTub Channel ID>",
+        "greetingText": "<greeting text here>"
+      },
+      {
+        "yt_channel_id": "<YouTub Channel ID>",
+        "greetingText": ""
+      },
+      {
+        "yt_channel_id": "<YouTub Channel ID>",
+        "greetingText": "<greeting text here"
+      }
+    ]
+  }
+]
+
+# IMPORTANT for running in a Docker container:
+# put all in exactly one line! as shown below
+SUBSCRIPTION_CONFIG=[{"discord_webhook_url":"<DISCORD WEBHOOK URL>","yt_subscriptions":[{"yt_channel_id":"<YouTub Channel ID>","greetingText":"<greeting text here>"}]},{"discord_webhook_url":"<ISCORD WEBHOOK URL>","yt_subscriptions":[{"yt_channel_id":"<YouTub Channel ID>","greetingText":"<greeting text here>"},{"yt_channel_id":"<YouTub Channel ID>","greetingText":""},{"yt_channel_id":"<YouTub Channel ID>","greetingText":"<greeting text here"}]}]
+# save your .env file now an place it in the root of the project
+
+
 
 ```
 

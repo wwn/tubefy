@@ -1,6 +1,7 @@
 package ch.nickl.tubefy.application.usecase;
 
 import ch.nickl.tubefy.domain.event.PublishedVideoEvent;
+import ch.nickl.tubefy.domain.model.SubscriptionConfig;
 import ch.nickl.tubefy.infrastructure.annotation.UseCase;
 import ch.nickl.tubefy.interfaces.rest.DiscordClient;
 import ch.nickl.tubefy.interfaces.rest.DiscordClientFactory;
@@ -9,20 +10,15 @@ import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Slf4j
 @UseCase
 @ApplicationScoped
 public class AnnouncePublishedVideoUseCase {
 
-    @ConfigProperty(name = "discord.subscriptions")
-    String subscriptionsMapping;
-
-    @ConfigProperty(name = "discord.notification.message")
-    String notificationMessage;
+    @ConfigProperty(name = "subscription.config")
+    SubscriptionConfig subscriptionConfig;
 
     private final DiscordClientFactory discordClientFactory;
 
@@ -35,70 +31,34 @@ public class AnnouncePublishedVideoUseCase {
         log.info("new video to be announced: {} ({}) published at {} for channel {}",
                 event.title(), event.videoId(), event.publishedAt(), event.channelId());
 
-        parseMappings().forEach(mapping -> {
-            if (mapping.channelIds().isEmpty() || mapping.channelIds().contains(event.channelId())) {
-                try {
-                    DiscordClient.DiscordMessage message = createMessage(event, mapping.notificationMessage());
-                    DiscordClient client = discordClientFactory.create(mapping.webhookUrl());
-                    client.postMessage(message);
-                    log.info("successfully announced video to discord webhook: {}", mapping.webhookUrl());
-                } catch (Exception e) {
-                    log.error("failed to announce video to discord webhook {}: {}", mapping.webhookUrl(), e.getMessage());
-                }
-            }
-        });
+        subscriptionConfig.subscriptions().forEach(subscription -> subscription.ytSubscriptions().stream()
+                .filter(ytSubscription -> ytSubscription.ytChannelId().equals(event.channelId()))
+                .forEach(ytSub -> {
+                    try {
+                        String greeting = ytSub.greetingText();
+                        if (greeting == null || greeting.isBlank()) {
+                            greeting = "New video is out!";
+                        }
+                        DiscordClient.DiscordMessage message = createMessage(event, greeting);
+                        DiscordClient client = discordClientFactory.create(subscription.discordWebhookUrl());
+                        client.postMessage(message);
+                        log.info("successfully announced video to discord webhook: {}", subscription.discordWebhookUrl());
+                    } catch (Exception e) {
+                        log.error("failed to announce video to discord webhook {}: {}", subscription.discordWebhookUrl(), e.getMessage());
+                    }
+                }));
     }
 
     public List<String> getAllTargetChannelIds() {
-        return parseMappings().stream()
-                .flatMap(m -> m.channelIds().stream())
+        return subscriptionConfig.subscriptions().stream()
+                .flatMap(s -> s.ytSubscriptions().stream())
+                .map(SubscriptionConfig.YtSubscription::ytChannelId)
                 .distinct()
                 .toList();
     }
 
-    record SubscriptionMapping(String webhookUrl, List<String> channelIds, String notificationMessage) {
-    }
-
-    List<SubscriptionMapping> parseMappings() {
-        if (subscriptionsMapping == null || subscriptionsMapping.isBlank()) {
-            return Collections.emptyList();
-        }
-
-        return Stream.of(subscriptionsMapping.split(";"))
-                .map(String::trim)
-                .filter(s -> !s.isEmpty())
-                .map(s -> {
-                    String[] parts = s.split("=", 2);
-                    String url = parts[0].trim();
-                    List<String> channelIds = Collections.emptyList();
-                    String message = this.notificationMessage;
-
-                    if (parts.length > 1) {
-                        String rightPart = parts[1].trim();
-                        if (rightPart.contains("[") && rightPart.endsWith("]")) {
-                            int messageStart = rightPart.lastIndexOf("[");
-                            message = rightPart.substring(messageStart + 1, rightPart.length() - 1).trim();
-                            rightPart = rightPart.substring(0, messageStart).trim();
-                        }
-                        channelIds = Stream.of(rightPart.split(","))
-                                .map(String::trim)
-                                .filter(id -> !id.isEmpty() && !id.equalsIgnoreCase("REPLACE_ME"))
-                                .toList();
-                    }
-
-                    if (url.isEmpty()) {
-                        log.warn("Empty webhook URL found in mapping: {}", s);
-                        return null;
-                    }
-
-                    return new SubscriptionMapping(url, channelIds, message);
-                })
-                .filter(java.util.Objects::nonNull)
-                .toList();
-    }
-
-    private DiscordClient.DiscordMessage createMessage(PublishedVideoEvent event, String customMessage) {
-        String content = (customMessage != null ? customMessage : notificationMessage) + " \n" + event.videoUrl();
+    private DiscordClient.DiscordMessage createMessage(PublishedVideoEvent event, String greetingText) {
+        String content = greetingText + " \n" + event.videoUrl();
 
         DiscordClient.Embed embed = new DiscordClient.Embed(
                 event.title(),
