@@ -1,6 +1,6 @@
 # tubefy - YouTube to Discord Notifier
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/wwn/tubefy/tubefy-base.yml?branch=develop&label=build%3Adevelop)](https://github.com/wwn/tubefy/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/wwn/tubefy/tubefy-base.yml?branch=develop&label=build%3Amain)](https://github.com/wwn/tubefy/actions)
 [![Version](https://img.shields.io/badge/version-0.0.1-blue)](https://github.com/wwn/tubefy/releases)
 [![Java](https://img.shields.io/badge/language-Java-orange?logo=openjdk)](https://www.oracle.com/java/)
 [![Quarkus](https://img.shields.io/badge/framework-Quarkus-red?logo=quarkus)](https://quarkus.io/)
