@@ -1,10 +1,26 @@
 # tubefy - YouTube to Discord Notifier
 
+[![Build Status](https://img.shields.io/github/actions/workflow/status/wwn/tubefy/tubefy-base.yml?branch=develop&label=build%3Adevelop)](https://github.com/wwn/tubefy/actions)
+[![Version](https://img.shields.io/badge/version-0.0.1-blue)](https://github.com/wwn/tubefy/releases)
+[![Java](https://img.shields.io/badge/language-Java-orange?logo=openjdk)](https://www.oracle.com/java/)
+[![Quarkus](https://img.shields.io/badge/framework-Quarkus-red?logo=quarkus)](https://quarkus.io/)
+[![Docker](https://img.shields.io/badge/deployment-Docker-blue?logo=docker)](https://www.docker.com/)
+[![Author](https://img.shields.io/badge/author-wwn-lightgrey)](https://github.com/wwn)
+
 tubefy is a lightweight Discord Bot that monitors YouTube channels for new uploads and automatically announces them to Discord via webhooks.
 The idea was doing a favor for my son. (Forgive me: I couldn't prevent him from YT)
 
-![tubefy](./README.png)
+Da haben wir den Fehler! Die geschweiften Klammern { } im Link waren Platzhalter – die müssen komplett weg, und der Dateiname muss exakt tubefy-base.yml lauten.
 
+Hier ist der komplette, bereinigte Code für deine README.md. Ich habe auch die Links zu deinem Profil und dem Repo korrigiert (vorausgesetzt dein GitHub-Nutzername ist wwn).
+Markdown
+
+An independent Discord Bot based on Java and Quarkus.
+***
+![tubefy](./README.png "how tubfey works")
+***
+![tubefy](./README2.png "sample")
+***
 ## Features
 
 - **Multi-Channel Support:** Monitor multiple YouTube channels simultaneously.
