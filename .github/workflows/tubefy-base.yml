@@ -36,10 +36,8 @@ jobs:
     - name: Verify Docker Compose configuration
       run: |
         export YOUTUBE_API_KEY=test
-        export YOUTUBE_CHANNEL_ID=test
         export YOUTUBE_CHECK_INTERVAL=10m
-        export DISCORD_NOTIFICATION_MESSAGE=test
-        export DISCORD_WEBHOOK_URLS=test
+        export SUBSCRIPTION_CONFIG='[]'
         docker compose config
     
 #    - name: Upload build artifacts
