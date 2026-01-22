@@ -35,6 +35,7 @@ public class UseCaseInterceptor {
         }
 
         long startTime = System.currentTimeMillis();
+        log.info("UseCase started: {}", className);
         try {
             Object result = context.proceed();
 
