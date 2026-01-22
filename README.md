@@ -135,7 +135,7 @@ https://discord.gg/mYPn5B3Z
 - rate limiter
 - mapping channels -> Discord webhooks (not all -> all) &#10004;
 - native executable
-- MDC, metrics (OTEL) & monitoring
+- MDC &#10004;
 - persist last video ID instead of algo to avoid duplicate announcements)
 - a fucking gui
 - Validator for videos instead of tooOld etc.
