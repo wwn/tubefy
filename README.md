@@ -84,7 +84,7 @@ SUBSCRIPTION_CONFIG=[
 
 # IMPORTANT for running in a Docker container:
 # put all in exactly one line! as shown below
-SUBSCRIPTION_CONFIG=[{"discord_webhook_url":"<DISCORD WEBHOOK URL>","yt_subscriptions":[{"yt_channel_id":"<YouTub Channel ID>","greetingText":"<greeting text here>"}]},{"discord_webhook_url":"<ISCORD WEBHOOK URL>","yt_subscriptions":[{"yt_channel_id":"<YouTub Channel ID>","greetingText":"<greeting text here>"},{"yt_channel_id":"<YouTub Channel ID>","greetingText":""},{"yt_channel_id":"<YouTub Channel ID>","greetingText":"<greeting text here"}]}]
+SUBSCRIPTION_CONFIG=[{"discord_webhook_url":"<DISCORD WEBHOOK URL>","yt_subscriptions":[{"yt_channel_id":"<YouTub Channel ID>","greetingText":"<greeting text here>"}]},{"discord_webhook_url":"<DISCORD WEBHOOK URL>","yt_subscriptions":[{"yt_channel_id":"<YouTub Channel ID>","greetingText":"<greeting text here>"},{"yt_channel_id":"<YouTub Channel ID>","greetingText":""},{"yt_channel_id":"<YouTub Channel ID>","greetingText":"<greeting text here"}]}]
 # save your .env file now
 
 
