@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation platform("io.quarkus.platform:quarkus-bom:3.31.1")
+    implementation platform("io.quarkus.platform:quarkus-bom:3.31.3")
 
     implementation 'io.quarkus:quarkus-scheduler'
     implementation 'io.quarkus:quarkus-arc'
@@ -34,7 +34,7 @@ dependencies {
 
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.quarkus:quarkus-junit5-mockito'
-    testImplementation 'org.assertj:assertj-core:3.27.6'
+    testImplementation 'org.assertj:assertj-core:3.27.7'
 }
 
 compileJava {
