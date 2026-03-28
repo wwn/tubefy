@@ -1,7 +1,7 @@
 package ch.nickl.tubefy.interfaces.rest.mapper;
 
-import ch.nickl.tubefy.application.dto.YouTubeSearchDto;
-import ch.nickl.tubefy.application.dto.YouTubeVideoDto;
+import ch.nickl.tubefy.interfaces.rest.dto.YouTubeSearchDto;
+import ch.nickl.tubefy.interfaces.rest.dto.YouTubeVideoDto;
 import ch.nickl.tubefy.interfaces.rest.YouTubeApiModels;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

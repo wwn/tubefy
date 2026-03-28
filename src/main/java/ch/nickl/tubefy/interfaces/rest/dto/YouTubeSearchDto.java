@@ -1,4 +1,4 @@
-package ch.nickl.tubefy.application.dto;
+package ch.nickl.tubefy.interfaces.rest.dto;
 
 import java.util.List;
 

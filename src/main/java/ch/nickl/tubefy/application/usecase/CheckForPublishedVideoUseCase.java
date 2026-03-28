@@ -1,6 +1,6 @@
 package ch.nickl.tubefy.application.usecase;
 
-import ch.nickl.tubefy.application.dto.YouTubeVideoDto;
+import ch.nickl.tubefy.interfaces.rest.dto.YouTubeVideoDto;
 import ch.nickl.tubefy.domain.event.PublishedVideoEvent;
 import ch.nickl.tubefy.infrastructure.annotation.UseCase;
 import ch.nickl.tubefy.interfaces.rest.YouTubeApiModels;
