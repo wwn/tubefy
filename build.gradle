@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'io.quarkus' version '3.34.1'
-    id 'io.freefair.lombok' version '9.2.0'
+    id 'io.quarkus' version '3.34.6'
+    id 'io.freefair.lombok' version '9.4.0'
 }
 
 group = 'ch.nickl'
@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation platform('io.quarkus.platform:quarkus-bom:3.34.1')
+    implementation platform('io.quarkus.platform:quarkus-bom:3.34.6')
 
     implementation 'io.quarkus:quarkus-scheduler'
     implementation 'io.quarkus:quarkus-arc'
