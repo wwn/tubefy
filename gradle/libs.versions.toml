@@ -1,0 +1,27 @@
+[versions]
+quarkus = "3.33.1"
+lombok = "9.5.0"
+mapstruct = "1.6.3"
+lombok-mapstruct-binding = "0.2.0"
+assertj = "3.27.7"
+
+[libraries]
+quarkus-bom = { group = "io.quarkus.platform", name = "quarkus-bom", version.ref = "quarkus" }
+quarkus-scheduler = { group = "io.quarkus", name = "quarkus-scheduler" }
+quarkus-arc = { group = "io.quarkus", name = "quarkus-arc" }
+quarkus-rest-client-jackson = { group = "io.quarkus", name = "quarkus-rest-client-jackson" }
+quarkus-logging-json = { group = "io.quarkus", name = "quarkus-logging-json" }
+quarkus-smallrye-context-propagation = { group = "io.quarkus", name = "quarkus-smallrye-context-propagation" }
+quarkus-smallrye-fault-tolerance = { group = "io.quarkus", name = "quarkus-smallrye-fault-tolerance" }
+
+mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = { group = "org.mapstruct", name = "mapstruct-processor", version.ref = "mapstruct" }
+lombok-mapstruct-binding = { group = "org.projectlombok", name = "lombok-mapstruct-binding", version.ref = "lombok-mapstruct-binding" }
+
+quarkus-junit5 = { group = "io.quarkus", name = "quarkus-junit5" }
+quarkus-junit5-mockito = { group = "io.quarkus", name = "quarkus-junit5-mockito" }
+assertj-core = { group = "org.assertj", name = "assertj-core", version.ref = "assertj" }
+
+[plugins]
+quarkus = { id = "io.quarkus", version.ref = "quarkus" }
+lombok = { id = "io.freefair.lombok", version.ref = "lombok" }
