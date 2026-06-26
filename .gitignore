@@ -43,3 +43,4 @@ bin/
 .DS_Store
 .env
 /notes4me.txt
+/.idea/

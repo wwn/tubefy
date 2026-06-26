@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'io.quarkus' version '3.34.6'
-    id 'io.freefair.lombok' version '9.4.0'
+    alias(libs.plugins.quarkus)
+    alias(libs.plugins.lombok)
 }
 
 group = 'ch.nickl'
@@ -9,7 +9,7 @@ version = '1.0.0'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(25)
+        languageVersion = JavaLanguageVersion.of(26)
     }
 }
 
@@ -19,22 +19,22 @@ repositories {
 }
 
 dependencies {
-    implementation platform('io.quarkus.platform:quarkus-bom:3.34.6')
+    implementation platform(libs.quarkus.bom)
 
-    implementation 'io.quarkus:quarkus-scheduler'
-    implementation 'io.quarkus:quarkus-arc'
-    implementation 'io.quarkus:quarkus-rest-client-jackson'
-    implementation 'io.quarkus:quarkus-logging-json'
-    implementation 'io.quarkus:quarkus-smallrye-context-propagation'
-    implementation 'io.quarkus:quarkus-smallrye-fault-tolerance'
+    implementation libs.quarkus.scheduler
+    implementation libs.quarkus.arc
+    implementation libs.quarkus.rest.client.jackson
+    implementation libs.quarkus.logging.json
+    implementation libs.quarkus.smallrye.context.propagation
+    implementation libs.quarkus.smallrye.fault.tolerance
 
-    implementation 'org.mapstruct:mapstruct:1.6.3'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
-    annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    implementation libs.mapstruct
+    annotationProcessor libs.mapstruct.processor
+    annotationProcessor libs.lombok.mapstruct.binding
 
-    testImplementation 'io.quarkus:quarkus-junit5'
-    testImplementation 'io.quarkus:quarkus-junit5-mockito'
-    testImplementation 'org.assertj:assertj-core:3.27.7'
+    testImplementation libs.quarkus.junit5
+    testImplementation libs.quarkus.junit5.mockito
+    testImplementation libs.assertj.core
 }
 
 compileJava {

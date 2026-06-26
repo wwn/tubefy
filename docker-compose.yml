@@ -4,6 +4,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        JAVA_VERSION: ${JAVA_VERSION:-26.0.2_10}
     container_name: tubefy
     ports:
     - "49952:8080"
