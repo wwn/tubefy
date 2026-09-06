@@ -1,5 +1,5 @@
 [versions]
-quarkus = "3.33.1"
+quarkus = "3.39.1"
 lombok = "9.5.0"
 mapstruct = "1.6.3"
 lombok-mapstruct-binding = "0.2.0"
